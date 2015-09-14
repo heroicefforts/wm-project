@@ -1,9 +1,9 @@
 CREATE SEQUENCE customer_id_seq;
 CREATE TABLE customer (
   id integer not null primary key,
-  username varchar(75) not null,
-  first_name varchar(100) not null,
-  last_name varchar(100) not null,
+  username varchar(75),
+  first_name varchar(100),
+  last_name varchar(100),
   email varchar(250) not null
 );
 CREATE UNIQUE INDEX customer_username_uniq ON customer(username);

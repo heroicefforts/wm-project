@@ -27,6 +27,13 @@ public class ReservationDAO {
 		return (Event) factory.getCurrentSession().get(Event.class, id);
 	}
 
+	public Customer addCustomer(String customerEmail) {
+		Customer customer = new Customer();
+		customer.setEmail(customerEmail);
+		factory.getCurrentSession().save(customer);
+		return customer;
+	}
+	
 	public Customer findCustomerByEmail(String customerEmail) {
 		return (Customer) factory.getCurrentSession().createQuery("from " + Customer.class.getName() + " where email = :email")
 			.setString("email", customerEmail)

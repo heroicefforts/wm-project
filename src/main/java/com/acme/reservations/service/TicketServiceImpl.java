@@ -34,6 +34,9 @@ public class TicketServiceImpl implements TicketService {
 		logger.debug("Customer<{}>:  Attempting to hold {} seats.", customerEmail, crit.getMinSeats());
 		Event event = dao.getEvent(eventId);
 		Customer customer = dao.findCustomerByEmail(customerEmail);
+		if(customer == null)
+			customer = dao.addCustomer(customerEmail);
+		
 		dao.lock(event);
 		
 		SeatHold hold = event.holdSeating(customer, crit);
