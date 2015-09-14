@@ -1,0 +1,96 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
+	
+	dependencies {
+		classpath 'org.mortbay.jetty:jetty:6.1.25'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'jetty'
+
+jar {
+	baseName = 'acme-reservation'
+	version =  '0.1.0'
+}
+
+repositories {
+	mavenCentral()
+}
+
+jettyRun.contextPath = ''
+jettyRunWar.contextPath = ''
+
+dependencies {
+	compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.7'
+	compile group: 'log4j', name: 'log4j', version: '1.2.15', ext: 'jar'
+	
+	runtime 'com.h2database:h2:1.4.188'
+ 
+	compile 'org.hibernate:hibernate-core:4.3.8.Final'
+	runtime('org.hibernate:hibernate-ehcache:4.3.8.Final') {
+		exclude group:'net.sf.ehcache'
+	}
+	compile 'net.sf.ehcache:ehcache:2.9.0'
+
+	compile 'javax.servlet:javax.servlet-api:3.1.0'	
+	compile 'org.springframework:spring-webmvc:4.1.4.RELEASE'
+	compile 'org.springframework:spring-aspects:4.1.4.RELEASE'
+	compile 'org.springframework:spring-orm:4.1.4.RELEASE'
+	compile 'org.springframework:spring-tx:4.1.4.RELEASE'
+	compile 'org.springframework:spring-context-support:4.1.4.RELEASE'
+
+	compile 'org.apache.commons:commons-lang3:3.4'
+
+	runtime 'commons-fileupload:commons-fileupload:1.3.1'
+	
+	/*
+	compile 'org.springframework.security:spring-security-config:3.2.5.RELEASE'
+	compile 'org.springframework.security:spring-security-web:3.2.5.RELEASE'
+	compile 'org.springframework.security:spring-security-taglibs:3.2.5.RELEASE'
+	*/
+	compile 'org.freemarker:freemarker:2.3.21'
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.5.0'
+	compile 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate4:2.5.1'
+	
+	testCompile 'junit:junit:4.12'
+	testCompile 'org.springframework:spring-test:4.1.4.RELEASE'
+}
+
+/* 
+ * Support one time generation of hibernate mappings for new tables.
+ */
+/*
+task reveng {
+	ant.taskdef(name: 'hibernatetool',
+		classname: 'org.hibernate.tool.ant.HibernateToolTask',
+		classpath: configurations.hbnAntTask.asPath )
+	ant.mkdir( dir: "build/generated/java" )
+	ant.mkdir( dir: "build/generated/xml" )
+	ant.hibernatetool( destdir : "build/generated" ) {
+		jdbcconfiguration( configurationfile:"src/main/resources/hbn/hibernate.cfg.xml",
+			revEngFile:"src/main/resources/hbn/hibernate.reveng.xml", packagename:"com.pyclid.web.domain" )
+		hbm2hbmxml( destdir: 'build/generated/xml' )
+		hbm2java ( jdk5:true, destdir: 'build/generated/java' )
+		hbm2dao( destdir: 'build/generated/java' )
+		classpath = configurations.hbnAntTask.asPath
+	}
+}
+*/
+
+[jettyRun, jettyRunWar]*.configure {
+	def httpsConnector = jettyRun.class.classLoader.loadClass('org.mortbay.jetty.security.SslSocketConnector').newInstance()
+	httpsConnector.setHost(null);
+	httpsConnector.setPort(8443);
+	httpsConnector.setKeystore("src/test/resources/jetty_keystore.jks");
+	httpsConnector.setPassword("SnakeOil");
+	httpsConnector.setKeyPassword("SnakeOil");
+	def httpConnector = jettyRun.class.classLoader.loadClass('org.mortbay.jetty.nio.SelectChannelConnector').newInstance()
+	httpConnector.setHost(null);
+	httpConnector.setPort(8080);
+	connectors = [httpsConnector, httpConnector]
+}

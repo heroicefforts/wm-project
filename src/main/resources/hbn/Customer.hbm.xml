@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.acme.reservations.domain.Customer" table="customer" optimistic-lock="version">
+    	<cache usage="nonstrict-read-write" />
+    
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="sequence"><param name="sequence">customer_id_seq</param></generator>
+        </id>
+        <property name="username" type="string">
+            <column name="username" length="75" />
+        </property>
+        <property name="firstName" type="string">
+            <column name="first_name" length="100" />
+        </property>
+        <property name="lastName" type="string">
+            <column name="last_name" length="100" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="250" />
+        </property>
+    </class>
+</hibernate-mapping>

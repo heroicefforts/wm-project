@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+	<sizeOfPolicy maxDepth="10000" maxDepthExceededBehavior="abort"/>
+
+	<diskStore path="java.io.tmpdir"/>
+	
+	<defaultCache maxEntriesLocalHeap="100" eternal="false" timeToIdleSeconds="1200" timeToLiveSeconds="1200">
+	</defaultCache>
+	
+	<cache name="com.acme.reservations.domain.Event" maxEntriesLocalHeap="50" eternal="false" timeToIdleSeconds="600" timeToLiveSeconds="600">
+		<persistence strategy="none"/>
+	</cache>
+</ehcache>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.acme.reservations.domain.Venue" table="venue" optimistic-lock="version">
+    	<cache usage="nonstrict-read-write" />
+    
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="sequence"><param name="sequence">venue_id_seq</param></generator>
+        </id>
+        
+        <property name="name" type="string">
+            <column name="name" length="250" />
+        </property>
+
+        <set name="seating" table="venue_seating" sort="natural" inverse="false" lazy="false" fetch="join" >
+            <key>
+                <column name="venue_id" not-null="true" />
+            </key>
+            <one-to-many class="com.acme.reservations.domain.VenueSeating" />
+        </set>
+
+    </class>
+</hibernate-mapping>

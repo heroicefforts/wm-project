@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.acme.reservations.domain.SeatHold" table="seat_hold" optimistic-lock="version">
+    	<cache usage="read-write" />
+    
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="sequence"><param name="sequence">seat_hold_id_seq</param></generator>
+        </id>
+        
+        <property name="guid" type="string">
+            <column name="guid" length="250" not-null="true" />
+        </property>
+        <property name="confirmation" type="string">
+            <column name="confirmation" length="250" />
+        </property>
+
+        <property name="crteDttm" type="timestamp">
+            <column name="crte_dttm" not-null="true" />
+        </property>
+        <property name="leaseCount" type="int">
+            <column name="lease_count" not-null="true" />
+        </property>
+
+        <many-to-one name="customer" class="com.acme.reservations.domain.Customer">
+            <column name="customer_id" />
+        </many-to-one>
+        
+        <bag name="leases" table="seat_hold_lease" lazy="false" fetch="join" >
+            <key>
+                <column name="seat_hold_id" not-null="true" />
+            </key>
+            <many-to-many column="seat_lease_id" class="com.acme.reservations.domain.SeatLease" />
+        </bag>
+
+    </class>
+</hibernate-mapping>
