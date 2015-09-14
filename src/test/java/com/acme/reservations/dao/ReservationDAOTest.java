@@ -28,7 +28,7 @@ import com.acme.reservations.domain.VenueSeating;
 public class ReservationDAOTest {
 	
 	@Autowired
-	private ReservationDAO dao;
+	private ReservationDao dao;
 	
 	@Autowired
 	private DataSource ds;

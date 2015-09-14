@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.acme.reservations.dao.ReservationDAO;
+import com.acme.reservations.dao.ReservationDao;
 import com.acme.reservations.domain.Event;
 import com.acme.reservations.web.json.View;
 
@@ -20,7 +20,7 @@ import com.acme.reservations.web.json.View;
 public class UIController extends AbstractJSONController {
 	
 	@Autowired
-	private ReservationDAO dao;
+	private ReservationDao dao;
 	
     @RequestMapping("/")
     public String home() {

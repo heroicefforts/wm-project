@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.acme.reservations.dao.ReservationDAO;
+import com.acme.reservations.dao.ReservationDao;
 import com.acme.reservations.domain.Customer;
 import com.acme.reservations.domain.Event;
 import com.acme.reservations.domain.ReservationCriteria;
@@ -15,11 +15,11 @@ import com.acme.reservations.domain.SeatHold;
 public class TicketServiceImpl implements TicketService {
 	private static final Logger logger = LoggerFactory.getLogger(TicketServiceImpl.class);
 	
-	private ReservationDAO dao;
+	private ReservationDao dao;
 	
 	
 	@Autowired
-	public TicketServiceImpl(ReservationDAO dao) {
+	public TicketServiceImpl(ReservationDao dao) {
 		this.dao = dao;
 	}
 	
