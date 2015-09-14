@@ -13,7 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.acme.reservations.exception.SeatHoldExpiredException;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.acme.reservations.web.json.Payload;
+import com.acme.reservations.web.json.View;
+import com.fasterxml.jackson.annotation.JsonView;
 
 /**
  * Domain object handling state for a given event.
@@ -21,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author jevans
  *
  */
-public class Event implements Serializable {
+public class Event implements Serializable, Payload {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger logger = LoggerFactory.getLogger(Event.class);
@@ -33,7 +35,7 @@ public class Event implements Serializable {
 	private Date endDttm;
 	private int maxHoldSecs;
 	
-	@JsonIgnore
+	@JsonView(View.Detail.class)
 	private SortedSet<EventSeating> seating;
 	
 	

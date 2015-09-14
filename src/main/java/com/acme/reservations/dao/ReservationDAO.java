@@ -1,10 +1,12 @@
 package com.acme.reservations.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.hibernate.LockMode;
 import org.hibernate.LockOptions;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -55,6 +57,16 @@ public class ReservationDAO {
 
 	public void lock(Serializable entity) {
 		factory.getCurrentSession().buildLockRequest(new LockOptions().setLockMode(LockMode.PESSIMISTIC_WRITE).setTimeOut(10000)).lock(entity);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Event> findEvents(int offset, int limit) {
+		return factory.getCurrentSession().createCriteria(Event.class)
+			.addOrder(Order.asc("startDttm"))
+			.setCacheable(true)
+			.setFirstResult(offset)
+			.setMaxResults(limit)
+			.list();
 	}
 	
 }

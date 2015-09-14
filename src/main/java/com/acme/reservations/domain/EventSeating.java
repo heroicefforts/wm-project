@@ -10,8 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.acme.reservations.clock.Time;
+import com.acme.reservations.web.json.View;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 
 /**
  * Domain object for event specific seating information.
@@ -31,7 +32,7 @@ public class EventSeating implements Comparable<EventSeating>, Serializable {
 	private VenueSeating venueSeating;
 	private float seatPrice;
 	
-	@JsonIgnore
+	@JsonView(View.Detail.class)
 	private List<SeatLease> leases = new ArrayList<>();
 	
 	

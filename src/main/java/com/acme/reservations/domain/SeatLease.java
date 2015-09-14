@@ -5,6 +5,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Domain object representing the lease of a group of seats within one level of a venue for a given event.
  * 
@@ -15,7 +18,10 @@ public class SeatLease implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
+	@JsonBackReference	
 	private EventSeating seating;
+	
+	@JsonIgnore
 	private Customer customer;
 	private Date expiration;
 	private int seats;
