@@ -38,9 +38,6 @@ public class ReservationCriteria implements Serializable {
 	}
 
 	public void setMinLevel(Integer minLevel) {
-		if(maxLevel != null && maxLevel < minLevel)
-			throw new IllegalArgumentException("Max level " + maxLevel + " must be greater than or equal to min level " + minLevel + ".");
-		
 		this.minLevel = minLevel;
 	}
 
@@ -63,9 +60,6 @@ public class ReservationCriteria implements Serializable {
 	}
 	
 	public void setMaxLevel(Integer maxLevel) {
-		if(minLevel != null && minLevel > maxLevel)
-			throw new IllegalArgumentException("Min level " + minLevel + " must be less than or equal to max level " + maxLevel + ".");
-		
 		this.maxLevel = maxLevel;
 	}
 
@@ -84,7 +78,10 @@ public class ReservationCriteria implements Serializable {
 	 * @return true if the minimum required criteria has been supplied, i.e.:  minSeats.
 	 */
 	public boolean isValid() {
-		return minSeats > -1;
+		if(minLevel != null && maxLevel != null && maxLevel < minLevel)
+			return false;
+		else
+			return minSeats > -1;
 	}
 	
 	@Override

@@ -1,6 +1,10 @@
 package com.acme.reservations.controller;
 
+import java.util.List;
+
+import com.acme.reservations.domain.Event;
 import com.acme.reservations.web.json.CustomSerializer;
+import com.acme.reservations.web.json.PagedResponse;
 import com.acme.reservations.web.json.Payload;
 import com.acme.reservations.web.json.Request;
 import com.acme.reservations.web.json.Response;
@@ -33,6 +37,16 @@ public abstract class AbstractJSONController {
     	return ser.toJson(new Response(status, errorMsg));
     }
 
+    protected String pagedResponse(String path, int page, int pageSize, List<Event> events) {
+    	PagedResponse resp = new PagedResponse(page, pageSize, events.subList(0, Math.min(pageSize, events.size())));
+    	if(page > 0)
+    		resp.setPrevPage(path + "?page=" + (page - 1) + "&pageSize=" + pageSize);
+    	if(events.size() > pageSize)
+    		resp.setNextPage(path + "?page=" + (page + 1) + "&pageSize=" + pageSize);
+    	
+    	return ser.toJson(resp);
+	}
+    
     protected String invalidRequest(Request request) {
     	return ser.toJson(new Response(400, "Bad request.", request));
     }
