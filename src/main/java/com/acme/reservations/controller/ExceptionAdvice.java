@@ -2,6 +2,8 @@ package com.acme.reservations.controller;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +18,8 @@ import org.springframework.web.servlet.NoHandlerFoundException;
  */
 @ControllerAdvice
 public class ExceptionAdvice extends AbstractJSONController {
+	private static final Logger logger = LoggerFactory.getLogger(ExceptionAdvice.class);
+	
 	
 	@ExceptionHandler(NoHandlerFoundException.class)
 	public @ResponseBody String handleError404(HttpServletResponse response)   {
@@ -24,7 +28,8 @@ public class ExceptionAdvice extends AbstractJSONController {
 	}
 
 	@ExceptionHandler(Exception.class)
-	public @ResponseBody String handleError500(HttpServletResponse response)   {
+	public @ResponseBody String handleError500(HttpServletResponse response, Exception e)   {
+		logger.error("Error encountered.", e);
 		response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 		return response(500, "There was an error processing your request.  Please try again later.");
 	}
