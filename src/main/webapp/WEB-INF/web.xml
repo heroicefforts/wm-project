@@ -40,16 +40,4 @@
 	    <tracking-mode>COOKIE</tracking-mode>
 	</session-config>
 	
-	<error-page>
-	    <error-code>403</error-code>
-	    <location>/error/500</location>
-	</error-page>
-	<error-page>
-    	<error-code>404</error-code>
-    	<location>/error/404</location>
-	</error-page>    
-	<error-page>
-    	<error-code>500</error-code>
-    	<location>/error/500</location>
-	</error-page>    
 </web-app>
